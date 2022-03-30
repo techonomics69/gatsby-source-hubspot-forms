@@ -4,21 +4,25 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { HubspotFormFieldDefinition } from "~/types";
-import { HubspotFormOptions } from "./HubspotForm";
+import { HubspotFormFieldDefinition } from "./shared";
+import { HubspotFormOptions } from "./shared";
 
 function calculateInputType(
   field: HubspotFormFieldDefinition
 ): HTMLInputTypeAttribute | undefined {
   const { name, type } = field;
-  if (type === "string") {
-    if (name === "email") {
-      return "email";
-    }
-  }
+  switch (type) {
+    case "string":
+      if (name === "email") {
+        return "email";
+      }
+      break;
 
-  if (type === "number") {
-    return "number";
+    case "phonenumber":
+      return "tel";
+
+    case "number":
+      return "number";
   }
 
   return type;

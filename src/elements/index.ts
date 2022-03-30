@@ -1,2 +1,2 @@
 export * from "./HubspotForm";
-export * from "../types";
+export * from "./shared";

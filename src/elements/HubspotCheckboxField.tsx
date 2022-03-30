@@ -1,20 +1,47 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { HubspotFormFieldDefinition } from "./shared";
-import { HubspotDependentFields } from "./HubspotDependentFields";
 import { HubspotFormOptions } from "./shared";
 
-export const HubspotRadioField: React.FC<{
+function buildSet(value?: string): ReadonlyArray<string> {
+  return value?.split(";") || [];
+}
+
+function addValue(
+  current: ReadonlyArray<string>,
+  value: string
+): ReadonlyArray<string> {
+  if (current.includes(value)) return current;
+  return [...current, value];
+}
+
+function removeValue(
+  current: ReadonlyArray<string>,
+  value: string
+): ReadonlyArray<string> {
+  const index = current.indexOf(value);
+  if (index < 0) return current;
+  return current.filter((_, i) => i !== index);
+}
+
+export const HubspotCheckboxField: React.FC<{
   field: HubspotFormFieldDefinition;
   value?: string;
   onInteracted: () => void;
   onChange?: (ev: React.ChangeEvent<HTMLInputElement>) => void;
   options: HubspotFormOptions;
 }> = ({ field, onInteracted, onChange, value, options }) => {
-  const [currentValue, setCurrentValue] = useState(value);
-  useEffect(() => setCurrentValue(value), [value]);
+  const [currentValue, setCurrentValue] = useState(() => buildSet(value));
+  useEffect(() => setCurrentValue(buildSet(value)), [value]);
   const handleChange = useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
-      setCurrentValue(ev.currentTarget.value);
+      const input = ev.currentTarget;
+      const { checked, value } = input;
+      setCurrentValue((current) => {
+        const newValue = checked
+          ? addValue(current, value)
+          : removeValue(current, value);
+        return newValue;
+      });
       onChange?.(ev);
     },
     [onChange]
@@ -28,14 +55,14 @@ export const HubspotRadioField: React.FC<{
   return (
     <>
       <div className={options.radioContainerClassName}>
+        <input type="hidden" name={field.name} value={currentValue} />
         {fieldOptions.map((option) => {
-          const checked = option.value === currentValue;
+          const checked = currentValue.includes(option.value);
           return (
             <label key={option.value} className={options.radioLabelClassName}>
               <input
                 className={options.radioFieldClassName}
-                type="radio"
-                name={field.name}
+                type="checkbox"
                 checked={checked}
                 value={option.value}
                 onInput={onInteracted}
@@ -46,15 +73,6 @@ export const HubspotRadioField: React.FC<{
           );
         })}
       </div>
-      {field.__typename === "HubspotFormFormFieldGroupsFields" &&
-        field.dependentFieldFilters && (
-          <HubspotDependentFields
-            fields={field.dependentFieldFilters}
-            parentValue={currentValue}
-            options={options}
-            onInteracted={onInteracted}
-          />
-        )}
     </>
   );
 };

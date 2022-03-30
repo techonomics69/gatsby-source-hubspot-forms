@@ -1,20 +1,18 @@
 {
   "compilerOptions": {
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "importHelpers": true,
-    "baseUrl": "./src",
-    "paths": {
-      "~/*": ["*"]
-    },
-    "lib": ["ESNext", "DOM"],
-    "target": "ES5",
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true,
+    "allowJs": true,
     "declaration": true,
-    "downlevelIteration": true,
-    "jsx": "react"
+    "declarationMap": true,
+    "jsx": "react",
+    "target": "es5",
+    "outDir": "./dist",
+    "declarationDir": "./dist",
+    "lib": ["es2016", "dom"],
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "node"
+    // "jsxFactory": "createElement"
   },
-  "include": ["src"]
+  "files": ["./src/elements/index.ts"]
 }

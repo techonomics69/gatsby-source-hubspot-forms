@@ -1,7 +1,9 @@
 import React from "react";
-import { HubspotFormFormDependentFieldDefinition } from "~/types";
 import { HubspotDependentField } from "./HubspotDependentField";
-import { HubspotFormOptions } from "./HubspotForm";
+import {
+  HubspotFormOptions,
+  HubspotFormFormDependentFieldDefinition,
+} from "./shared";
 
 export const HubspotDependentFields: React.FC<{
   fields: ReadonlyArray<HubspotFormFormDependentFieldDefinition>;

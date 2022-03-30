@@ -1,6 +1,8 @@
 import React, { useMemo } from "react";
-import { HubspotFormFormDependentFieldDefinition } from "~/types";
-import { HubspotFormOptions } from "./HubspotForm";
+import {
+  HubspotFormOptions,
+  HubspotFormFormDependentFieldDefinition,
+} from "./shared";
 import { HubspotFormField } from "./HubspotFormField";
 
 export const HubspotDependentField: React.FC<{

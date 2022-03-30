@@ -5,9 +5,9 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { HubspotFormFieldDefinition } from "~/types";
+import { HubspotFormFieldDefinition } from "./shared";
 import { HubspotDependentFields } from "./HubspotDependentFields";
-import { HubspotFormOptions } from "./HubspotForm";
+import { HubspotFormOptions } from "./shared";
 
 export const HubspotSelectField: React.FC<{
   value?: string;

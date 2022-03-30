@@ -1,10 +1,11 @@
 import React from "react";
-import { HubspotFormFieldDefinition } from "~/types";
-import { defaultShowError, HubspotFormOptions } from "./HubspotForm";
+import { HubspotFormFieldDefinition } from "./shared";
+import { defaultShowError, HubspotFormOptions } from "./shared";
 import { HubspotRadioField } from "./HubspotRadioField";
 import { HubspotSelectField } from "./HubspotSelectField";
 import { HubspotTextareaField } from "./HubspotTextAreaField";
 import { HubspotTextField } from "./HubspotTextField";
+import { HubspotCheckboxField } from "./HubspotCheckboxField";
 
 function getFormField(
   field: HubspotFormFieldDefinition,
@@ -20,6 +21,7 @@ function getFormField(
   switch (field.fieldType) {
     case "text":
     case "number":
+    case "phonenumber":
       return (
         <HubspotTextField
           value={value}
@@ -61,6 +63,16 @@ function getFormField(
           options={options}
         />
       );
+    case "checkbox":
+      return (
+        <HubspotCheckboxField
+          value={value as string | undefined}
+          field={field}
+          onInteracted={onInteracted}
+          onChange={onChange}
+          options={options}
+        />
+      );
   }
 
   return (options.showError || defaultShowError)(
@@ -80,13 +92,13 @@ export const HubspotFormField: React.FC<{
   ) => void;
 }> = ({ field, value, onInteracted, onChange, options }) => {
   return (
-    <div className="mt-xs flex flex-col">
+    <div className={options.fieldContainerClassName}>
       {options.showLabels && field.label && !field.hidden && (
-        <label className="p4 mb-tiny flex" htmlFor={field.name}>
+        <label className={options.labelClassName} htmlFor={field.name}>
           <p dangerouslySetInnerHTML={{ __html: field.label }} />
-          {field.required && (
-            <span className="text-copper">
-              <sup>*</sup>
+          {field.required && options.requiredText && (
+            <span className={options.requiredClassName}>
+              <span>{options.requiredText}</span>
             </span>
           )}
         </label>

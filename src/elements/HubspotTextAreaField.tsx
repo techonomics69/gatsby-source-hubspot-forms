@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { HubspotFormFieldDefinition } from "~/types";
-import { HubspotFormOptions } from "./HubspotForm";
+import { HubspotFormFieldDefinition } from "./shared";
+import { HubspotFormOptions } from "./shared";
 
 export const HubspotTextareaField: React.FC<{
   field: HubspotFormFieldDefinition;

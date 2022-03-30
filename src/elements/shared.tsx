@@ -1,3 +1,34 @@
+import React from "react";
+export function defaultShowError(message: string) {
+  return <pre>{message}</pre>;
+}
+export interface HubspotFormOptions {
+  radioContainerClassName?: string;
+  radioLabelClassName?: string;
+  radioFieldClassName?: string;
+  fieldContainerClassName?: string;
+  labelClassName?: string;
+  requiredClassName?: string;
+  requiredText?: string;
+  selectText?: string;
+  fieldClassName?: string;
+  textAreaRows?: number;
+  showLabels?: boolean;
+  submitButton?: boolean;
+  successClassName?: string;
+  failureClassName?: string;
+  defaultSuccessMessage?: string;
+  defaultFailureMessage?: string;
+  showFormResponseOutside?: boolean;
+  responseClassName?: string;
+  formClassName?: string;
+  submitClassName?: string;
+  defaultSubmitText?: string;
+  hideSubmitButton?: boolean;
+  renderSubmitButton?: (text: string) => React.ReactElement;
+  showError?: (message: string) => React.ReactElement;
+}
+
 export type EventReporter = (
   eventName: string,
   eventData: { [key: string]: unknown }
