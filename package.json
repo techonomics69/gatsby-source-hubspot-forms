@@ -1,6 +1,6 @@
 {
   "name": "@bond-london/gatsby-source-hubspot-forms",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Support hubspot forms inside gatsby",
   "main": "index.js",
   "types": "index.d.ts",
