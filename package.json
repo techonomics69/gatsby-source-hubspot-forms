@@ -1,0 +1,68 @@
+{
+  "name": "@bond-london/gatsby-source-hubspot-forms",
+  "version": "1.0.0",
+  "description": "Support hubspot forms inside gatsby",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "engines": {
+    "node": ">=16"
+  },
+  "scripts": {
+    "build": "tsc --outDir dist",
+    "dev": "tsc -w --outDir dist",
+    "prepare": "cross-env NODE_ENV=production yarn run build && husky install",
+    "format": "prettier --write \"**/*.{js,jsx,json,ts,tsx,md}\"",
+    "release": "release-it"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "keywords": [
+    "data",
+    "gatsby",
+    "gatsby-plugin",
+    "hubspot",
+    "graphql",
+    "source"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@bond-london/gatsby-graphcms-components": "^1.18.1",
+    "axios": "^0.26.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "gatsby": "^4.0.1",
+    "husky": "^7.0.4",
+    "prettier": "^2.4.1",
+    "release-it": "^14.11.6",
+    "typescript": "^4.4.4"
+  },
+  "peerDependencies": {
+    "gatsby": "^4.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "release-it": {
+    "git": {
+      "tagName": "v${version}",
+      "commitMessage": "chore: release v${version}"
+    },
+    "github": {
+      "release": true
+    },
+    "npm": {
+      "publish": true
+    },
+    "hooks": {
+      "before:init": [
+        "yarn run format",
+        "yarn run prepare"
+      ]
+    }
+  }
+}

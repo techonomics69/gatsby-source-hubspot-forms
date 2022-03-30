@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "importHelpers": true,
+    "baseUrl": "./src",
+    "paths": {
+      "~/*": ["*"]
+    },
+    "lib": ["ESNext", "DOM"],
+    "target": "ES5",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "downlevelIteration": true,
+    "jsx": "react"
+  },
+  "include": ["src"]
+}
