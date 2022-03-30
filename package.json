@@ -29,7 +29,8 @@
   "license": "MIT",
   "dependencies": {
     "@bond-london/gatsby-graphcms-components": "^1.18.1",
-    "axios": "^0.26.1"
+    "axios": "^0.26.1",
+    "gatsby-plugin-utils": "^3.5.0"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
