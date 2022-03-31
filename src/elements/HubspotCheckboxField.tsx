@@ -68,20 +68,26 @@ const HubspotCheckboxField: React.FC<FieldProps> = ({
 
   return (
     <>
-      <div className={options.radioContainerClassName}>
+      <div className={options.checkboxContainerClassName}>
         <input type="hidden" name={field.name} value={currentStringValue} />
         {fieldOptions.map((option) => {
           const checked = currentValue.includes(option.value);
           return (
-            <label key={option.value} className={options.radioLabelClassName}>
+            <label
+              key={option.value}
+              className={options.checkboxLabelClassName}
+            >
               <input
-                className={options.radioFieldClassName}
+                className={options.checkboxFieldClassName}
                 type="checkbox"
                 checked={checked}
+                id={option.value}
                 value={option.value}
                 onInput={onInteracted}
                 onChange={handleChange}
               />
+              {options.renderCheckbox &&
+                options.renderCheckbox(option.value, option.label)}
               <span>{option.label}</span>
             </label>
           );

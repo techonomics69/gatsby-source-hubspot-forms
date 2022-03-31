@@ -6,6 +6,9 @@ export interface HubspotFormOptions {
   radioContainerClassName?: string;
   radioLabelClassName?: string;
   radioFieldClassName?: string;
+  checkboxContainerClassName?: string;
+  checkboxLabelClassName?: string;
+  checkboxFieldClassName?: string;
   fieldContainerClassName?: string;
   labelClassName?: string;
   requiredClassName?: string;
@@ -27,6 +30,7 @@ export interface HubspotFormOptions {
   hideSubmitButton?: boolean;
   renderSubmitButton?: (text: string) => React.ReactElement;
   showError?: (message: string) => React.ReactElement;
+  renderCheckbox?: (value: string, label: string) => React.ReactElement;
 }
 
 export type EventReporter = (
