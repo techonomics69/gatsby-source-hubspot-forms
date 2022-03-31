@@ -1,15 +1,18 @@
 import React, { useCallback, useEffect, useState } from "react";
+import {
+  FieldProps,
+  registerFieldTypeHandler,
+} from "./HubspotFormFieldFactory";
 import { HubspotFormFieldDefinition } from "./shared";
 import { HubspotFormOptions } from "./shared";
 
-export const HubspotTextareaField: React.FC<{
-  field: HubspotFormFieldDefinition;
-  single?: boolean;
-  value?: string;
-  onInteracted: () => void;
-  onChange?: (ev: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  options: HubspotFormOptions;
-}> = ({ field, single, onInteracted, onChange, value, options }) => {
+const HubspotTextareaField: React.FC<FieldProps> = ({
+  field,
+  onInteracted,
+  onChange,
+  value,
+  options,
+}) => {
   const [currentValue, setCurrentValue] = useState(value);
   useEffect(() => setCurrentValue(value), [value]);
   const handleChange = useCallback(
@@ -35,3 +38,7 @@ export const HubspotTextareaField: React.FC<{
     />
   );
 };
+
+export function registerTextAreaField() {
+  registerFieldTypeHandler("textarea", HubspotTextareaField);
+}

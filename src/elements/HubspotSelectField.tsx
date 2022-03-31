@@ -8,14 +8,18 @@ import React, {
 import { HubspotFormFieldDefinition } from "./shared";
 import { HubspotDependentFields } from "./HubspotDependentFields";
 import { HubspotFormOptions } from "./shared";
+import {
+  FieldProps,
+  registerFieldTypeHandler,
+} from "./HubspotFormFieldFactory";
 
-export const HubspotSelectField: React.FC<{
-  value?: string;
-  field: HubspotFormFieldDefinition;
-  onInteracted: () => void;
-  onChange?: (ev: React.ChangeEvent<HTMLSelectElement>) => void;
-  options: HubspotFormOptions;
-}> = ({ field, onInteracted, onChange, value, options }) => {
+const HubspotSelectField: React.FC<FieldProps> = ({
+  field,
+  onInteracted,
+  onChange,
+  value,
+  options,
+}) => {
   const [currentValue, setCurrentValue] = useState(value);
   const handleChange = useCallback(
     (ev: ChangeEvent<HTMLSelectElement>) => {
@@ -53,7 +57,7 @@ export const HubspotSelectField: React.FC<{
         field.dependentFieldFilters && (
           <HubspotDependentFields
             fields={field.dependentFieldFilters}
-            parentValue={currentValue}
+            parentValue={currentValue as string}
             options={options}
             onInteracted={onInteracted}
           />
@@ -61,3 +65,7 @@ export const HubspotSelectField: React.FC<{
     </>
   );
 };
+
+export function registerSelectField() {
+  registerFieldTypeHandler("select", HubspotSelectField);
+}

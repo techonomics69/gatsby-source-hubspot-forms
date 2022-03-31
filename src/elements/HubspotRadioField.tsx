@@ -1,15 +1,17 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { HubspotFormFieldDefinition } from "./shared";
 import { HubspotDependentFields } from "./HubspotDependentFields";
-import { HubspotFormOptions } from "./shared";
+import {
+  FieldProps,
+  registerFieldTypeHandler,
+} from "./HubspotFormFieldFactory";
 
-export const HubspotRadioField: React.FC<{
-  field: HubspotFormFieldDefinition;
-  value?: string;
-  onInteracted: () => void;
-  onChange?: (ev: React.ChangeEvent<HTMLInputElement>) => void;
-  options: HubspotFormOptions;
-}> = ({ field, onInteracted, onChange, value, options }) => {
+const HubspotRadioField: React.FC<FieldProps> = ({
+  field,
+  onInteracted,
+  onChange,
+  value,
+  options,
+}) => {
   const [currentValue, setCurrentValue] = useState(value);
   useEffect(() => setCurrentValue(value), [value]);
   const handleChange = useCallback(
@@ -50,7 +52,7 @@ export const HubspotRadioField: React.FC<{
         field.dependentFieldFilters && (
           <HubspotDependentFields
             fields={field.dependentFieldFilters}
-            parentValue={currentValue}
+            parentValue={currentValue as string}
             options={options}
             onInteracted={onInteracted}
           />
@@ -58,3 +60,7 @@ export const HubspotRadioField: React.FC<{
     </>
   );
 };
+
+export function registerRadioField() {
+  registerFieldTypeHandler("radio", HubspotRadioField);
+}

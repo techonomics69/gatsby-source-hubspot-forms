@@ -12,6 +12,19 @@ import type {
 } from "./shared";
 import { HubspotFormField } from "./HubspotFormField";
 import { defaultShowError, HubspotFormOptions } from "./shared";
+import { registerHubspotTextField } from "./HubspotTextField";
+import { registerTextAreaField } from "./HubspotTextAreaField";
+import { registerSelectField } from "./HubspotSelectField";
+import { registerRadioField } from "./HubspotRadioField";
+import { registerCheckboxField } from "./HubspotCheckboxField";
+
+function register() {
+  registerHubspotTextField();
+  registerTextAreaField();
+  registerSelectField();
+  registerRadioField();
+  registerCheckboxField();
+}
 
 function onVisibleToUser(
   element: HTMLElement,
@@ -185,7 +198,7 @@ export function useFormHandler(
             fields.push({
               objectTypeId: field.objectTypeId,
               name: k,
-              value: v.toString(),
+              value: Array.isArray(v) ? v.join(";") : v.toString(),
             });
           }
         });
@@ -315,7 +328,19 @@ export const HubspotForm: React.FC<{
   form: HubspotFormDefinition;
   options?: HubspotFormOptions;
   values?: { [name: string]: string | number | undefined };
-}> = ({ form: formDefinition, values, options = {} }) => {
+  handleFormData?: (formData: FormData) => void;
+  reportEvent?: EventReporter;
+  title?: string;
+  ipAddress?: string;
+}> = ({
+  form: formDefinition,
+  values,
+  options = {},
+  handleFormData,
+  reportEvent,
+  title,
+  ipAddress,
+}) => {
   const {
     status,
     formResponse,
@@ -323,7 +348,13 @@ export const HubspotForm: React.FC<{
     allFields,
     formRef,
     handleFormInteracted,
-  } = useFormHandler(formDefinition);
+  } = useFormHandler(
+    formDefinition,
+    handleFormData,
+    reportEvent,
+    title,
+    ipAddress
+  );
 
   const showError = options.showError || defaultShowError;
 
@@ -429,3 +460,5 @@ export const HubspotForm: React.FC<{
     </>
   );
 };
+
+register();

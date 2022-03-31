@@ -4,6 +4,10 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import {
+  FieldProps,
+  registerFieldTypeHandler,
+} from "./HubspotFormFieldFactory";
 import { HubspotFormFieldDefinition } from "./shared";
 import { HubspotFormOptions } from "./shared";
 
@@ -28,14 +32,13 @@ function calculateInputType(
   return type;
 }
 
-export const HubspotTextField: React.FC<{
-  field: HubspotFormFieldDefinition;
-  single?: boolean;
-  value?: string | number;
-  onInteracted: () => void;
-  onChange?: (ev: React.ChangeEvent<HTMLInputElement>) => void;
-  options: HubspotFormOptions;
-}> = ({ field, single, onInteracted, onChange, value, options }) => {
+const HubspotTextField: React.FC<FieldProps> = ({
+  field,
+  onInteracted,
+  onChange,
+  value,
+  options,
+}) => {
   const [currentValue, setCurrentValue] = useState(value);
   useEffect(() => setCurrentValue(value), [value]);
   const handleChange = useCallback(
@@ -61,3 +64,9 @@ export const HubspotTextField: React.FC<{
     />
   );
 };
+
+export function registerHubspotTextField() {
+  registerFieldTypeHandler("text", HubspotTextField);
+  registerFieldTypeHandler("number", HubspotTextField);
+  registerFieldTypeHandler("phonenumber", HubspotTextField);
+}

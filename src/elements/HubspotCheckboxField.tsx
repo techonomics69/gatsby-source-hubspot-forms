@@ -1,8 +1,15 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { HubspotFormFieldDefinition } from "./shared";
 import { HubspotFormOptions } from "./shared";
+import {
+  FieldProps,
+  registerFieldTypeHandler,
+} from "./HubspotFormFieldFactory";
 
 function buildSet(value?: string): ReadonlyArray<string> {
+  if (!value || value.length === 0) {
+    return [];
+  }
   return value?.split(";") || [];
 }
 
@@ -23,15 +30,17 @@ function removeValue(
   return current.filter((_, i) => i !== index);
 }
 
-export const HubspotCheckboxField: React.FC<{
-  field: HubspotFormFieldDefinition;
-  value?: string;
-  onInteracted: () => void;
-  onChange?: (ev: React.ChangeEvent<HTMLInputElement>) => void;
-  options: HubspotFormOptions;
-}> = ({ field, onInteracted, onChange, value, options }) => {
-  const [currentValue, setCurrentValue] = useState(() => buildSet(value));
-  useEffect(() => setCurrentValue(buildSet(value)), [value]);
+const HubspotCheckboxField: React.FC<FieldProps> = ({
+  field,
+  onInteracted,
+  onChange,
+  value,
+  options,
+}) => {
+  const [currentValue, setCurrentValue] = useState(() =>
+    buildSet(value as string)
+  );
+  useEffect(() => setCurrentValue(buildSet(value as string)), [value]);
   const handleChange = useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
       const input = ev.currentTarget;
@@ -47,6 +56,11 @@ export const HubspotCheckboxField: React.FC<{
     [onChange]
   );
 
+  const currentStringValue = useMemo(
+    () => currentValue.join(";"),
+    [currentValue]
+  );
+
   const { options: fieldOptions } = field;
   if (!fieldOptions) {
     return null;
@@ -55,7 +69,7 @@ export const HubspotCheckboxField: React.FC<{
   return (
     <>
       <div className={options.radioContainerClassName}>
-        <input type="hidden" name={field.name} value={currentValue} />
+        <input type="hidden" name={field.name} value={currentStringValue} />
         {fieldOptions.map((option) => {
           const checked = currentValue.includes(option.value);
           return (
@@ -76,3 +90,7 @@ export const HubspotCheckboxField: React.FC<{
     </>
   );
 };
+
+export function registerCheckboxField() {
+  registerFieldTypeHandler("checkbox", HubspotCheckboxField);
+}
